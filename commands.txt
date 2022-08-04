@@ -13,7 +13,7 @@ docker run --name jenkins-docker --rm --detach \
   docker:dind --storage-driver overlay2
 
 # Create Dockerfile
-FROM jenkins/jenkins:2.346.1-jdk11
+FROM jenkins/jenkins:lts-jdk11
 USER root
 RUN apt-get update && apt-get install -y lsb-release
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
@@ -28,7 +28,7 @@ USER jenkins
 RUN jenkins-plugin-cli --plugins "blueocean:1.25.5 docker-workflow:1.28"
 
 # Build image
-docker build -t myjenkins-blueocean:2.346.1-1 .
+docker build -t myjenkins-blueocean:lts .
 
 # Create jenkins container
 docker run --name jenkins-blueocean --detach \
@@ -40,4 +40,4 @@ docker run --name jenkins-blueocean --detach \
   --volume "$HOME"/dev/jenkins:/home \
   --restart=on-failure \
   --env JAVA_OPTS="-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true" \
-  myjenkins-blueocean:2.346.1-1
+  myjenkins-blueocean:lts
