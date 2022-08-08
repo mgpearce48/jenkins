@@ -9,7 +9,7 @@ docker run --name jenkins-docker --rm --detach \
   --env DOCKER_TLS_CERTDIR=/certs \
   --volume jenkins-docker-certs:/certs/client \
   --volume jenkins-data:/var/jenkins_home \
-  --publish 3001:3000 --publish 2376:2376 \
+  --publish 3001:3000 --publish 2376:2376 --publish 8001:8000 \
   docker:dind --storage-driver overlay2
 
 # Create Dockerfile
