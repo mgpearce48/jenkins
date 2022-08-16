@@ -14,11 +14,11 @@ docker run --name jenkins-docker --rm --detach \
  docker:dind --storage-driver overlay2
 
 # Create Dockerfile
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:2.346.3-jdk11
 USER root
 RUN apt-get update && apt-get install -y lsb-release
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
-  https://download.docker.com/linux/debian/gpg
+ https://download.docker.com/linux/debian/gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) \
  signed-by=/usr/share/keyrings/docker-archive-keyring.asc] \
  https://download.docker.com/linux/debian \
@@ -27,10 +27,10 @@ RUN apt-get update && apt-get install -y docker-ce-cli
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose && chmod +x \
  /usr/local/bin/docker-compose
 USER jenkins
-RUN jenkins-plugin-cli --plugins "blueocean:1.25.5 docker-workflow:1.28"
+RUN jenkins-plugin-cli --plugins "blueocean:1.25.6 docker-workflow:1.29"
 
 # Build image
-docker build -t myjenkins-blueocean:lts .
+docker build -t myjenkins-blueocean:2.346.3-1 .
 
 # Create jenkins container
 docker run --name jenkins-blueocean --detach \
@@ -39,7 +39,7 @@ docker run --name jenkins-blueocean --detach \
  --publish 8080:8080 --publish 50000:50000 \
  --volume jenkins-data:/var/jenkins_home \
  --volume jenkins-docker-certs:/certs/client:ro \
- --volume "$HOME"/dev/jenkins:/home \
+ --volume "$HOME":/home \
  --restart=on-failure \
  --env JAVA_OPTS="-Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true" \
- myjenkins-blueocean:lts
+ myjenkins-blueocean:2.346.3-1
