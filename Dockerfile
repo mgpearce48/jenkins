@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts-jdk11
+FROM jenkins/jenkins:2.346.3-jdk11
 
 USER root
 
@@ -14,4 +14,4 @@ RUN curl -L "https://github.com/docker/compose/releases/download/v2.6.1/docker-c
 
 USER jenkins
 
-RUN jenkins-plugin-cli --plugins "blueocean:1.25.5 docker-workflow:1.28"
+RUN jenkins-plugin-cli --plugins "blueocean:1.25.6 docker-workflow:1.29"
